@@ -17,9 +17,9 @@ def appliqueTransformation(img, H):
     # Trouver le bon canevas
     pts = []
     pts = np.append(pts,((np.matmul(H,np.array([0,0,1]))).astype(float)))
-    pts = np.append(pts,((np.matmul(H,np.array([347,0,1]))).astype(float)))
-    pts = np.append(pts,((np.matmul(H,np.array([0,238,1]))).astype(float)))
-    pts = np.append(pts,((np.matmul(H,np.array([347,238,1]))).astype(float)))
+    pts = np.append(pts,((np.matmul(H,np.array([img.shape[1],0,1]))).astype(float)))
+    pts = np.append(pts,((np.matmul(H,np.array([0,img.shape[0],1]))).astype(float)))
+    pts = np.append(pts,((np.matmul(H,np.array([img.shape[1],img.shape[0],1]))).astype(float)))
     pts = np.reshape(pts, (4,3))
     minX, maxX, minY, maxY = minMax(pts)
     # Calcul de l'image
