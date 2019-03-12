@@ -1,22 +1,6 @@
 import numpy as np
 import imageio as io
 
-
-# Extraction des points des images
-ptsBase = np.loadtxt("ptsBase.txt", delimiter=",")
-tmp = np.copy(ptsBase)
-ptsBase[:, 0] = tmp[:, 1]
-ptsBase[:, 1] = tmp[:, 0]
-ptsProj1 = np.loadtxt("ptsProj1.txt", delimiter=",")
-tmp = np.copy(ptsProj1)
-ptsProj1[:, 0] = tmp[:, 1]
-ptsProj1[:, 1] = tmp[:, 0]
-ptsProj2 = np.loadtxt("ptsProj2.txt", delimiter=",")
-tmp = np.copy(ptsProj2)
-ptsProj2[:, 0] = tmp[:, 1]
-ptsProj2[:, 1] = tmp[:, 0]
-
-
 # Création d'une matrice 4x3 pour les points de bases
 def matrice4x3(ptsBase):
     A = np.zeros((4,3), dtype=int)
@@ -59,3 +43,37 @@ def matriceResolve(imgBase, imgProj):
     np.put(A, [66,67,68], -1*(imgBase[3]))
     np.put(A, [69,70,71], imgBase[3]*imgProj[3][1])
     return A
+
+
+# Extraction des points des images
+ptsBase1 = np.loadtxt("./1-PartieManuelle/Serie1/pts_serie1/pts2_12.txt", delimiter=",")
+tmp = np.copy(ptsBase1)
+ptsBase1[:, 0] = tmp[:, 1]
+ptsBase1[:, 1] = tmp[:, 0]
+ptsProj1 = np.loadtxt("./1-PartieManuelle/Serie1/pts_serie1/pts1_12.txt", delimiter=",")
+tmp = np.copy(ptsProj1)
+ptsProj1[:, 0] = tmp[:, 1]
+ptsProj1[:, 1] = tmp[:, 0]
+ptsBase2 = np.loadtxt("./1-PartieManuelle/Serie1/pts_serie1/pts2_32.txt", delimiter=",")
+tmp = np.copy(ptsBase2)
+ptsBase2[:, 0] = tmp[:, 1]
+ptsBase2[:, 1] = tmp[:, 0]
+ptsProj2 = np.loadtxt("./1-PartieManuelle/Serie1/pts_serie1/pts3_32.txt", delimiter=",")
+tmp = np.copy(ptsProj2)
+ptsProj2[:, 0] = tmp[:, 1]
+ptsProj2[:, 1] = tmp[:, 0]
+
+
+# Création de la matrice A
+ptsBase1 = matrice4x3(ptsBase1)
+A = matriceResolve(ptsBase1, ptsProj1)
+
+
+# Décomposition en valeur singulière
+U,S,V = np.linalg.svd(np.transpose(A))
+print("U")
+print(U.shape)
+print("S")
+print(S.shape)
+print("V")
+print(V.shape)
