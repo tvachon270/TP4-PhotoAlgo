@@ -33,11 +33,13 @@ def appliqueTransformation(img, H):
                 imgInt[j - int(minY)][i - int(minX)] = img[pts[1]][pts[0]]
     return imgInt
 
-# appliqueTransformation(img,H1)
-imgTrans = appliqueTransformation(img,H1)
-plt.imshow(imgTrans)
-plt.show()
+if __name__ == "__main__":
+    
+    # appliqueTransformation(img,H1)
+    imgTrans = appliqueTransformation(img,H1)
+    plt.imshow(imgTrans)
+    plt.show()
 
-imgTrans = appliqueTransformation(img, H2)
-plt.imshow(imgTrans)
-plt.show()
+    imgTrans = appliqueTransformation(img, H2)
+    plt.imshow(imgTrans)
+    plt.show()
