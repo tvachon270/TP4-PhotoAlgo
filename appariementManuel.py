@@ -17,7 +17,7 @@ def matriceNx3(ptsBase):
     return A
 
 # Création d'une matrice pour trouver la transformation projective
-# Places les points entre deux images dans une matrice 8x9
+# Places les points entre deux images dans une matrice 2*nx9
 def matriceResolve(ptsBase, ptsProj):
     A = []
     n = ptsBase.shape[0]
@@ -46,7 +46,8 @@ def calculHomographie(ptsBase, ptsProj):
 
 
 if __name__ == "__main__":
-    np.set_printoptions(precision=3,suppress=True)
+    # np.set_printoptions(precision=3,suppress=True)
+
     # Extraction des images
     img1 = io.imread('./1-PartieManuelle/Serie1/IMG_2415.jpg')
     img2 = io.imread('./1-PartieManuelle/Serie1/IMG_2416.jpg')
@@ -54,24 +55,23 @@ if __name__ == "__main__":
 
     # Extraction des points des images
     ptsBase1 = np.loadtxt("./1-PartieManuelle/Serie1/pts_serie1/pts2_12.txt", delimiter=",")
-    tmp = np.copy(ptsBase1)
-    ptsBase1[:, 0] = tmp[:, 1]
-    ptsBase1[:, 1] = tmp[:, 0]
     ptsProj1 = np.loadtxt("./1-PartieManuelle/Serie1/pts_serie1/pts1_12.txt", delimiter=",")
-    tmp = np.copy(ptsProj1)
-    ptsProj1[:, 0] = tmp[:, 1]
-    ptsProj1[:, 1] = tmp[:, 0]
     ptsBase2 = np.loadtxt("./1-PartieManuelle/Serie1/pts_serie1/pts2_32.txt", delimiter=",")
-    tmp = np.copy(ptsBase2)
-    ptsBase2[:, 0] = tmp[:, 1]
-    ptsBase2[:, 1] = tmp[:, 0]
     ptsProj2 = np.loadtxt("./1-PartieManuelle/Serie1/pts_serie1/pts3_32.txt", delimiter=",")
-    tmp = np.copy(ptsProj2)
-    ptsProj2[:, 0] = tmp[:, 1]
-    ptsProj2[:, 1] = tmp[:, 0]
-    
-    h = calculHomographie(ptsBase1, ptsProj1)
 
-    imH = meth.appliqueTransformation(img1,h)
+    
+    H1 = calculHomographie(ptsProj1, ptsBase1)
+    # H2 = calculHomographie(ptsProj2, ptsProj1)
+    H3 = calculHomographie(ptsProj2, ptsBase2)
+
+    imH = meth.appliqueTransformation(img1,H1)
+    plt.imshow(imH)
+    plt.show()
+
+    # imH = meth.appliqueTransformation(img2,H2)
+    # plt.imshow(imH)
+    # plt.show()
+
+    imH = meth.appliqueTransformation(img3,H3)
     plt.imshow(imH)
     plt.show()
