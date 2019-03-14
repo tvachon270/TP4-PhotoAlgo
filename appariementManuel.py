@@ -61,17 +61,12 @@ if __name__ == "__main__":
 
     
     H1 = calculHomographie(ptsProj1, ptsBase1)
-    # H2 = calculHomographie(ptsProj2, ptsProj1)
-    H3 = calculHomographie(ptsProj2, ptsBase2)
+    H2 = calculHomographie(ptsProj2, ptsBase2)
 
     imH = meth.appliqueTransformation(img1,H1)
     plt.imshow(imH)
     plt.show()
 
-    # imH = meth.appliqueTransformation(img2,H2)
-    # plt.imshow(imH)
-    # plt.show()
-
-    imH = meth.appliqueTransformation(img3,H3)
+    imH = meth.appliqueTransformation(img3,H2)
     plt.imshow(imH)
     plt.show()
