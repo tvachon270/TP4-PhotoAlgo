@@ -17,7 +17,7 @@ def matriceNx3(ptsBase):
     return A
 
 # Création d'une matrice pour trouver la transformation projective
-# Places les points entre deux images dans une matrice 2*nx9
+# Places les points entre deux images dans une matrice 2*Nx9
 def matriceResolve(ptsBase, ptsProj):
     A = []
     n = ptsBase.shape[0]
@@ -80,23 +80,31 @@ if __name__ == "__main__":
     # ptsBase2 = np.loadtxt("./1-PartieManuelle/Serie3/pts_serie3/pts2_32.txt", delimiter=",")
     # ptsProj2 = np.loadtxt("./1-PartieManuelle/Serie3/pts_serie3/pts3_32.txt", delimiter=",")
     
+    # Calcul de l'homographie
     H1 = calculHomographie(ptsProj1, ptsBase1)
     H3 = calculHomographie(ptsProj2, ptsBase2)
 
+    # Appliquer l'homographie 1 à l'image 1
     # imH1 = meth.appliqueTransformation(img1,H1)
-    # io.imwrite('S3imgH1.jpg', imH1)
+    # io.imwrite('S2H1.jpg', imH1)
     # plt.imshow(imH1)
     # plt.show()
-    imH1 = io.imread('./1-PartieManuelle/Serie1/imgH1.jpg')
+    imH1 = io.imread('./1-PartieManuelle/Serie1/S1H1.jpg')
+    # imH1 = io.imread('./1-PartieManuelle/Serie2/S2H1.jpg')
+    # imH1 = io.imread('./1-PartieManuelle/Serie3/S3H1.jpg')
     print(imH1.shape)
 
+    # Appliquer l'homographie 3 à l'image 3
     # imH3 = meth.appliqueTransformation(img3,H3)
-    # # io.imwrite('S3imgH3.jpg', imH3)
+    # io.imwrite('S2H3.jpg', imH3)
     # plt.imshow(imH3)
     # plt.show()
-    imH3 = io.imread('./1-PartieManuelle/Serie1/imgH3.jpg')
+    imH3 = io.imread('./1-PartieManuelle/Serie1/S1H3.jpg')
+    # imH3 = io.imread('./1-PartieManuelle/Serie2/S2H3.jpg')
+    # imH3 = io.imread('./1-PartieManuelle/Serie3/S3H3.jpg')
     print(imH3.shape)
 
+    # Calcul du coin d'origine
     origin1 = np.matmul(H1,[0,0,1])/np.matmul(H1,[0,0,1])[2]
     x1 = abs(origin1[0]).astype(int)
     y1 = abs(origin1[1]).astype(int)
@@ -107,11 +115,28 @@ if __name__ == "__main__":
     print(origin2)
 
     
-    imF = np.zeros((2500, 3200, 3), dtype=int)
-    # print(imF.shape)
+    imF = np.zeros((max(imH1.shape[0],img2.shape[0],imH3.shape[0])+y1+y2, imH1.shape[1]+img2.shape[1]+imH3.shape[1]-(x1+x2), 3), dtype=int)
+
+    # Image serie 1
     imF[:imH1.shape[0],:imH1.shape[1],:] = imH1
-    # imF[y2+57:imH3.shape[0]+y2+57,x2+x1:imH3.shape[1]+x2+x1,:] = imH3
-    imF[y2:imH3.shape[0]+y2,x2+x1:imH3.shape[1]+x2+x1,:] = imH3
+    imF[y2+57:imH3.shape[0]+y2+57,x2+x1:imH3.shape[1]+x2+x1,:] = imH3
     imF[y1:img2.shape[0]+y1,x1:img2.shape[1]+x1,:] = img2
+    io.imwrite('S1F.jpg', imF)
     plt.imshow(imF)
     plt.show()
+
+    # # Image serie 2
+    # imF[:imH1.shape[0],:imH1.shape[1],:] = imH1
+    # imF[y2+57:imH3.shape[0]+y2+57,x2+x1:imH3.shape[1]+x2+x1,:] = imH3
+    # imF[y1:img2.shape[0]+y1,x1:img2.shape[1]+x1,:] = img2
+    # io.imwrite('S2F.jpg', imF)
+    # plt.imshow(imF)
+    # plt.show()
+
+    # # Image serie 3
+    # imF[:imH1.shape[0],:imH1.shape[1],:] = imH1
+    # imF[y2+57:imH3.shape[0]+y2+57,x2+x1:imH3.shape[1]+x2+x1,:] = imH3
+    # imF[y1:img2.shape[0]+y1,x1:img2.shape[1]+x1,:] = img2
+    # io.imwrite('S3F.jpg', imF)
+    # plt.imshow(imF)
+    # plt.show()

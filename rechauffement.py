@@ -37,9 +37,11 @@ if __name__ == "__main__":
     
     # appliqueTransformation(img,H1)
     imgTrans = appliqueTransformation(img,H1)
+    io.imwrite('rechauffementH1.jpg', imgTrans)
     plt.imshow(imgTrans)
     plt.show()
 
     imgTrans = appliqueTransformation(img, H2)
+    io.imwrite('rechauffementH2.jpg', imgTrans)
     plt.imshow(imgTrans)
     plt.show()
